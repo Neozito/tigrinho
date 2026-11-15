@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#300a18">
+  <meta name="description" content="Tigre da Sorte: jogo demonstrativo de caça-níquel com moedas virtuais, jogável direto no navegador.">
+  <title>Tigre da Sorte — Jogo demonstrativo</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="background-orb orb-one" aria-hidden="true"></div>
+  <div class="background-orb orb-two" aria-hidden="true"></div>
+  <div class="sparkles" aria-hidden="true"><span>✦</span><span>✧</span><span>✦</span><span>✧</span><span>✦</span></div>
+
+  <div class="app-container">
+    <header class="topbar">
+      <a href="./" class="brand" aria-label="Tigre da Sorte, início">
+        <span class="brand-icon"><img src="assets/tiger.svg" alt=""></span>
+        <span class="brand-name">TIGRE <em>DA SORTE</em><small>JOGO DE DEMONSTRAÇÃO</small></span>
+      </a>
+      <div class="topbar-actions">
+        <span class="demo-badge"><span class="demo-dot"></span> 100% MOEDAS VIRTUAIS</span>
+        <button class="top-icon-btn" id="soundBtn" type="button" aria-label="Ativar som" title="Ligar ou desligar o som" aria-pressed="false">
+          <svg class="sound-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m11 5-5 4H3v6h3l5 4V5Zm4 4a5 5 0 0 1 0 6m3-9a9 9 0 0 1 0 12"/></svg>
+          <svg class="sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m11 5-5 4H3v6h3l5 4V5Zm5 4 5 6m0-6-5 6"/></svg>
+        </button>
+        <button class="rules-trigger" id="rulesBtn" type="button"><span>?</span> Como jogar</button>
+      </div>
+    </header>
+
+    <main class="main-layout">
+      <section class="game-wrap" aria-label="Jogo Tigre da Sorte">
+        <div class="game-ornament" aria-hidden="true">✦ <span>✦</span> ✦</div>
+        <div class="game-heading">
+          <div class="mascot-circle"><div class="mascot-rays"></div><img src="assets/tiger.svg" alt="Mascote tigre sorridente"></div>
+          <div class="heading-copy">
+            <span class="small-label"><span class="label-star">★</span> SEU MOMENTO DE SORTE</span>
+            <h1>TIGRE <span>DA SORTE</span></h1>
+            <p>Gire os símbolos, encontre combinações e divirta-se!</p>
+          </div>
+          <span class="heading-coin" aria-hidden="true">✦</span>
+        </div>
+
+        <div class="game-inner">
+          <div class="game-status" role="status" aria-live="polite" aria-atomic="true">
+            <span class="status-deco">✧</span>
+            <span id="statusText">ALINHE 3 SÍMBOLOS PARA GANHAR</span>
+            <span class="status-deco">✧</span>
+          </div>
+
+          <div class="board-surround" id="boardSurround">
+            <div class="board-top-lights" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="reel-board" id="reelBoard" role="group" aria-label="Nove símbolos distribuídos em três linhas e três colunas">
+              <div class="slot" data-index="0"><img src="assets/lantern.svg" alt="Lanterna"></div>
+              <div class="slot" data-index="1"><img src="assets/tiger.svg" alt="Tigre"></div>
+              <div class="slot" data-index="2"><img src="assets/orange.svg" alt="Laranja"></div>
+              <div class="slot" data-index="3"><img src="assets/envelope.svg" alt="Envelope da sorte"></div>
+              <div class="slot" data-index="4"><img src="assets/ingot.svg" alt="Barra de ouro"></div>
+              <div class="slot" data-index="5"><img src="assets/lantern.svg" alt="Lanterna"></div>
+              <div class="slot" data-index="6"><img src="assets/bamboo.svg" alt="Bambu"></div>
+              <div class="slot" data-index="7"><img src="assets/orange.svg" alt="Laranja"></div>
+              <div class="slot" data-index="8"><img src="assets/envelope.svg" alt="Envelope da sorte"></div>
+            </div>
+            <div class="board-bottom-lights" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+
+          <div class="win-panel" id="winPanel" aria-live="polite">
+            <span class="win-panel-icon" aria-hidden="true">✦</span>
+            <div class="win-panel-content"><small>ÚLTIMO PRÊMIO</small><strong id="lastWin">0</strong></div>
+            <span class="win-panel-icon" aria-hidden="true">✦</span>
+          </div>
+
+          <div class="control-area">
+            <div class="bet-selector">
+              <span class="control-label">APOSTA VIRTUAL</span>
+              <div class="bet-buttons">
+                <button type="button" class="bet-adjust" id="betMinus" aria-label="Diminuir valor da aposta">−</button>
+                <span class="bet-amount"><span class="mini-coin">✦</span><strong id="betAmount">20</strong></span>
+                <button type="button" class="bet-adjust" id="betPlus" aria-label="Aumentar valor da aposta">+</button>
+              </div>
+            </div>
+            <button class="spin-button" id="spinBtn" type="button"><span class="spin-icon">↻</span><span id="spinText">GIRAR AGORA</span><small>BOA SORTE!</small></button>
+          </div>
+          <div class="game-hint"><span class="keyboard-hint">ESPAÇO</span> para girar <span class="hint-separator">•</span> 5 linhas de prêmio</div>
+        </div>
+      </section>
+
+      <aside class="sidebar" aria-label="Saldo, premiações e histórico">
+        <section class="wallet-card">
+          <div class="wallet-heading"><span><span class="wallet-glyph">◈</span> MINHA CARTEIRA</span><span class="wallet-ping"></span></div>
+          <span class="wallet-caption">SALDO DISPONÍVEL</span>
+          <div class="wallet-balance"><span class="large-coin">✦</span> <strong id="balance">2.000</strong></div>
+          <span class="wallet-note">moedas fictícias · sem valor monetário</span>
+          <button class="reset-btn" id="resetBtn" type="button">↻ Recarregar saldo de teste</button>
+        </section>
+
+        <section class="aside-card payout-card">
+          <div class="section-title"><span class="section-title-icon">✧</span><h2>Tabela de prêmios</h2><small>3 IGUAIS</small></div>
+          <div class="payout-list" id="payoutList">
+            <div class="payout-item"><img src="assets/tiger.svg" alt=""><span>Tigre dourado</span><strong>18×</strong></div>
+            <div class="payout-item"><img src="assets/ingot.svg" alt=""><span>Ouro da sorte</span><strong>12×</strong></div>
+            <div class="payout-item"><img src="assets/envelope.svg" alt=""><span>Envelope</span><strong>8×</strong></div>
+            <div class="payout-item"><img src="assets/lantern.svg" alt=""><span>Lanterna</span><strong>6×</strong></div>
+            <div class="payout-item"><img src="assets/orange.svg" alt=""><span>Laranja</span><strong>5×</strong></div>
+            <div class="payout-item"><img src="assets/bamboo.svg" alt=""><span>Bambu</span><strong>4×</strong></div>
+          </div>
+          <p class="payout-note">O multiplicador é aplicado ao valor da aposta em cada linha vencedora.</p>
+        </section>
+
+        <section class="aside-card recent-card">
+          <div class="section-title"><span class="section-title-icon">◷</span><h2>Últimas rodadas</h2></div>
+          <ul class="history-list" id="historyList"><li class="history-empty">Sua primeira rodada aparecerá aqui.</li></ul>
+          <div class="mini-stats"><div><span>RODADAS</span><strong id="roundCount">0</strong></div><div><span>MAIOR PRÊMIO</span><strong id="bestWin">0</strong></div></div>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="footer"><span>© <span id="year"></span> Tigre da Sorte</span><span>Experiência original demonstrativa. Sem depósitos, saques ou prêmios reais.</span></footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="confetti-container" id="confetti" aria-hidden="true"></div>
+
+  <dialog class="rules-dialog" id="rulesDialog" aria-labelledby="dialogTitle">
+    <div class="dialog-content">
+      <button type="button" class="dialog-close" id="closeRules" aria-label="Fechar regras">×</button>
+      <div class="dialog-emblem"><img src="assets/tiger.svg" alt=""></div>
+      <h2 id="dialogTitle">Como jogar</h2>
+      <p>Escolha quantas moedas virtuais deseja utilizar e clique em <strong>Girar agora</strong> ou aperte <strong>Espaço</strong>.</p>
+      <div class="rule-example"><span>🍊</span><span>🍊</span><span>🍊</span><strong>COMBINAÇÃO!</strong></div>
+      <p>Três símbolos iguais em uma das <strong>5 linhas</strong> (3 horizontais ou 2 diagonais) rendem o multiplicador da tabela. Várias linhas podem premiar na mesma rodada.</p>
+      <div class="dialog-warning"><strong>Somente demonstração</strong><span>Todas as moedas e recompensas são fictícias. O jogo funciona inteiramente no seu navegador, sem dinheiro real, cadastro ou pagamentos.</span></div>
+      <button type="button" class="dialog-primary" id="understoodBtn">ENTENDI, VAMOS JOGAR!</button>
+    </div>
+  </dialog>
+</body>
+</html>
